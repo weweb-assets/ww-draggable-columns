@@ -52,14 +52,16 @@ export default {
                 return data;
             }
         },
-        onChange(value, index) {
+    },
+    methods: {
+         onChange(value, index) {
             const items = [...this.columns];
             items.splice(index, 1, value);
             this.$emit("trigger-event", { name: "change", event: { value: items } });
             this.$emit("element-event", { name: "change", event: { value: items } });
             if (this.content.variableId) wwLib.wwVariable.updateValue(this.content.variableId, items);
         },
-    },
+    }
 };
 </script>
 
