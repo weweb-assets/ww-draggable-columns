@@ -24,6 +24,11 @@ export default {
         itemFooter: {
             hidden: true,
             defaultValue: []
+        },
+        list: {
+            hidden: true,
+            type: 'Element',
+            defaultValue: {type: ''}
         }
     },
 };
