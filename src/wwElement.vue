@@ -1,13 +1,13 @@
 <template>
     <div v-if="!columns">Please bind variable</div>
     <div class="container">
-        <div v-for="column in columns" :key="column.id">
+        <div v-for="(column, index) in columns" :key="column.id">
             <wwLayoutItemContext :index="index" :item="{}" is-repeat :data="column">
                 <wwLayout path="itemHeader"></wwLayout>
                 <wwElement
                     v-bind="content.list"
-                    :wwProps="{ group, items: column.items, itemKey: content.itemKey }"
-                    @element-event="onChange(index, $event.value)"
+                    :wwProps="{ group: 'berry', items: column.items, itemKey: content.itemKey }"
+                    @element-event="onChange($event.event.value, index)"
                 ></wwElement>
                 <wwLayout path="itemFooter"></wwLayout>
             </wwLayoutItemContext>
@@ -55,11 +55,10 @@ export default {
     },
     methods: {
          onChange(value, index) {
-            const items = [...this.columns];
-            items.splice(index, 1, value);
-            this.$emit("trigger-event", { name: "change", event: { value: items } });
-            this.$emit("element-event", { name: "change", event: { value: items } });
-            if (this.content.variableId) wwLib.wwVariable.updateValue(this.content.variableId, items);
+            const columns = [...this.columns];
+            columns.splice(index, 1, {...this.columns[index], items: value});
+            this.$emit("trigger-event", { name: "change", event: { value: columns } });
+            if (this.content.variableId) wwLib.wwVariable.updateValue(this.content.variableId, columns);
         },
     }
 };
